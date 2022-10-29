@@ -17,6 +17,7 @@ void Menu() {
 	MyMap m;
 	Iter it;
 
+
 	vector<CreditCard*> credit_card;
 	vector<DebitCard*> debit_card;
 	vector<Wallet*> wallet;
