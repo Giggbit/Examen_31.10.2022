@@ -51,9 +51,6 @@ public:
 	string NumberOfCard() {
 		return number;
 	}
-	/*double getAmountOfMoney() {
-		return amount_money;
-	}*/
 	double getTaxExpens() {
 		return tax_expens;
 	}

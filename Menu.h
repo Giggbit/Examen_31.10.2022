@@ -24,12 +24,12 @@ void Menu() {
 	int debit_counter = 0;
 	int wallet_counter = 0;
 
-	
-	ofstream out_report("Save report.txt", ios::app);
+	ofstream report("Report.txt"); // Не перемещать!!!
+	ofstream out_report;
+	ifstream in_report;
 	
 	int day = 0; 
 	string line;
-	static int a = 0;
 
 	string number_card;
 	int choose, choose_case1, choose_case2, choose_case3, choose_case4;
@@ -254,6 +254,8 @@ void Menu() {
 			break;
 
 		case 4:
+			out_report.open("Save report.txt");
+			in_report.open("Save report.txt");
 			cout << "\n1. Credit card\n2. Debit card\n-> ";
 			cin >> choose_case4;
 			if (choose_case4 == 1) {
@@ -266,32 +268,9 @@ void Menu() {
 						m.emplace(make_pair(credit_card[i]->getPurchasesExpens(), "Purchase: "));
 						m.emplace(make_pair(credit_card[i]->getFoodExpens(), "Food: "));
 						m.emplace(make_pair(credit_card[i]->getEntertainmentExpens(), "Entertainment: "));
-						a++;
 					}
 				}
-				for (it = m.end(); it != m.begin(); ) {
-					it--;
-					cout << it->first << endl;
-				}
-				cin.ignore();
-				
-				/*day = 1;
-				out_report << "Day " << day << endl;
-				for (it = m.end(); it != m.begin(); ) {
-					it--;
-					out_report << it->second << it->first << endl;
-				}
-				out_report.open("Save report.txt", ios::app);
-				cout << "Report for " << day << " day:" << endl;
-				if (out_report.is_open()) {
-					while (!in_report.eof()) {
-						getline(in_report, line);
-						if (line == to_string(day) || line != to_string(day + 1)) {
-							write << line << endl;
-						}
-					}
-				}
-				out_report.close();*/
+				cin.ignore();				
 			}
 			else if (choose_case4 == 2) {
 				cout << "\nEnter number of card: ";
@@ -305,22 +284,64 @@ void Menu() {
 						m.emplace(make_pair(debit_card[i]->getEntertainmentExpens(), "Entertainment: "));
 					}
 				}
-				for (it = m.end(); it != m.begin(); ) {
-					it--;
-					cout << it->first << endl;
-				}
 				cin.ignore();
 			}
 			
-			day++;
-			out_report << day << endl;
-			for (it = m.end(); it != m.begin(); ) {
-				it--;
-				out_report << it->second << it->first << endl;
+			cout << "\n1. Expens on the first day\n2. Expens on the week\n-> ";
+			cin >> choose_case4;
+			if (choose_case4 == 1) {
+				day++;
+				out_report << day << endl;
+				for (it = m.end(); it != m.begin(); ) {
+					it--;
+					out_report << it->second << it->first << endl;
+				} m.clear();
+				if (day == 1) {
+					while (!in_report.eof()) {
+						if (line == to_string(day) || line != to_string(day + 1)) {
+							getline(in_report, line);
+							report << line << endl;
+						}
+					}
+					cout << "Completed..." << endl;
+				}
 			}
-			
-			/*out_report.close();*/
-			std::cout <<"a = " << a << std::endl;
+			else if (choose_case4 == 2) {
+				day++;
+				out_report << day << endl;
+				for (it = m.end(); it != m.begin(); ) {
+					it--;
+					out_report << it->second << it->first << endl;
+				} m.clear();
+				if (day == 7) {
+					while (!in_report.eof()) {
+						if (line == to_string(day) || line != to_string(day + 1)) {
+							getline(in_report, line);
+							report << line << endl;
+						}
+					}
+					cout << "Completed..." << endl;
+				}
+			}
+
+			//day++;
+			//out_report << day << endl;
+			//for (it = m.end(); it != m.begin(); ) {
+			//	it--;
+			//	out_report << it->second << it->first << endl;
+			//} m.clear();
+			//if (in_report.is_open()) {
+			//	while (!in_report.eof()) {
+			//		/*if (line == to_string(day) || line != to_string(day+1)) {
+			//			getline(in_report, line);
+			//			report << line << endl;
+			//		}*/
+			//		getline(in_report, line);
+			//		report << line << endl;
+			//	}
+			//}
+			out_report.close();
+			in_report.close();
 			break;
 			
 		case 5:
@@ -330,24 +351,3 @@ void Menu() {
 	}
 
 }
-
-
-//void write() {
-//	fstream write;
-//	ifstream in_report;
-//	in_report.open("Save report.txt");
-//	write.open("Report.txt");
-//	
-//	std::string line;
-//		while (!in_report.eof()) {
-//			line = " ";
-//			getline(in_report, line);
-//			std::cout << "line = " << line << std::endl;
-//			if (line == to_string(2) || line != to_string(3)) {
-//				std::cout << "HHHHHHIIIIIIIIIIIIEEEEEEEERRRRRRRRRR" << std::endl;
-//				write << line << endl;
-//			}
-//			/*	write << line << endl;*/
-//		
-//	}
-//}
